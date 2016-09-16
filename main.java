@@ -10,17 +10,33 @@ public class main{
     public static void main(String args[]){
         //Objetos
         Scanner teclado = new Scanner (System.in);
-        //Variables
-            Boolean bandera = true;
-        //Pedir numeros al usuario
-        System.out.println("|Ingrese la expresion Regular|");
-		postfix converter = new postfix();
-        String ExpresionRegular =(teclado.nextLine());
-		String postfix = converter.convertToPostfix(ExpresionRegular); //de aqui obtenemos nuestra cadena ya en postfix
-		
-        System.out.println("|Ingrese la cadena|");
-        String Cadena =(teclado.nextLine());
-		
+		Stack st = new Stack();
+        String ExpresionRegular =("ab|");
+		for (int i=0; i<ExpresionRegular.length(); i++) { 
+			char posicion = ExpresionRegular.charAt(i); 
+			String Simbolo = Character.toString(posicion);
+			if (Character.isLetter(posicion)){
+				//AFN.Construccion(1,i,Simbolo,null,null);
+				st.push(new Thompson(1,i,Simbolo,null,null));
+			}
+			else if(Simbolo.equals("|")){
+				Thompson b = (Thompson) st.pop();
+				Thompson a = (Thompson) st.pop();
+				System.out.println(b.GetEstadoInicial());
+				System.out.println(b.GetEstadoFinal());
+				System.out.println(a.GetEstadoInicial());
+				System.out.println(b.GetEstadoFinal());
+				st.push(new Thompson(2,i,Simbolo,a,b));
+			}
+			else if(Simbolo.equals("^")){
+				Thompson b = (Thompson) st.pop();
+				Thompson a = (Thompson) st.pop();
+				st.push(new Thompson(3,i,Simbolo,a,b));
+			}
+			else if(Simbolo.equals("*")){
+				Thompson a = (Thompson) st.pop();
+				st.push(new Thompson(4,i,Simbolo,a,null));
+			}
+		}	
 		
 }}
-
