@@ -13,36 +13,48 @@ public class main{
 		Stack st = new Stack();
 		Thompson AFN = new Thompson();
 		Postfix post = new Postfix();
-        String ExpresionRegular =("(aa*|bb*)");
+        String ExpresionRegular =("(ab)(b|b)*");
 		String Postfix = post.infixToPostfix(ExpresionRegular);
 		System.out.println(Postfix);
-		for (int i=0; i<ExpresionRegular.length(); i++) { 
-			char posicion = ExpresionRegular.charAt(i); 
+		int contador = 0;
+		for (int i=0; i<Postfix.length(); i++) { 
+			char posicion = Postfix.charAt(i); 
 			String Simbolo = Character.toString(posicion);
-			int Identificador =2;
 			if (Character.isLetter(posicion)){
-				//AFN.Construccion(1,i,Simbolo,null,null);
-				AFN.Construccion(1,Identificador,Simbolo,null,null);
-				Identificador = Identificador +1;
+				st.push(AFN.Construccion(1,Simbolo,null,null));
 			}
-			// else if(Simbolo.equals("|")){
-				// Thompson b = (Thompson) st.pop();
-				// Thompson a = (Thompson) st.pop();
-				// System.out.println(b.GetEstadoInicial());
-				// System.out.println(b.GetEstadoFinal());
-				// System.out.println(a.GetEstadoInicial());
-				// System.out.println(b.GetEstadoFinal());
-//.push(new Thompson(2,i,Simbolo,a,b));
-			// }
-			// else if(Simbolo.equals("^")){
-				// Thompson b = (Thompson) st.pop();
-				// Thompson a = (Thompson) st.pop();
-			//	st.push(new Thompson(3,i,Simbolo,a,b));
-			// }
-			// else if(Simbolo.equals("*")){
-				// Thompson a = (Thompson) st.pop();
-			//	st.push(new Thompson(4,i,Simbolo,a,null));
-			// }
+			else if(Simbolo.equals("|")){
+				AFN b = (AFN) st.pop();
+				AFN a = (AFN) st.pop();
+				st.push(AFN.Construccion(2,Simbolo,a,b));	
+			}
+			else if(Simbolo.equals(".")){
+				AFN b = (AFN) st.pop();
+				AFN a = (AFN) st.pop();
+				st.push(AFN.Construccion(3,Simbolo,a,b));
+			}
+			else if(Simbolo.equals("*")){
+				AFN a = (AFN) st.pop();
+				st.push(AFN.Construccion(4,Simbolo,a,null));
+			}
+			
+			}
+
+			AFN prueba5 = (AFN) st.pop();
+			System.out.println("NodoInicial " + prueba5.GetEstadoInicial());
+			System.out.println("NodoFinal " + prueba5.GetEstadoFinal());
+			ArrayList<Transicion> Caminosa = prueba5.GetCaminos();//en este array vamos a guardar todos los caminos del primer caracter para el or
+			
+			for(int j=0; j<Caminosa.size(); j++){
+				Transicion prueba2 = Caminosa.get(j);
+				System.out.println("");
+				System.out.println("CaminoInicio " + prueba2.GetEstadoInicial());
+				System.out.println("CaminoFinal " + prueba2.GetEstadoFinal());
+				System.out.println("Simbolo " + prueba2.GetSimbolo());
+				System.out.println("");
+			
+				
+				
 		}	
 		
 }}
