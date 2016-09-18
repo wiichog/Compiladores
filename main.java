@@ -43,20 +43,10 @@ public class main{
 			
 			
 			AFN afn = (AFN) st.pop();
-			ArrayList<Transicion> CaminosAFN = afn.GetCaminos();
-			ArrayList<Integer> EstadosAFN = new ArrayList<Integer>();
-			for(int i=0; i<CaminosAFN.size();i++){
-				Transicion Camino = CaminosAFN.get(i);
-				if(!(EstadosAFN.contains(Camino.GetEstadoInicial()))){
-					EstadosAFN.add(Camino.GetEstadoInicial());
-				}
-			}
-			String Palabra =("");
-			ArrayList<ArrayList<Integer>> eClousure = new ArrayList<ArrayList<Integer>>();
-			for(int h=0;h<EstadosAFN.size();h++){
-				ArrayList<Integer> eClousureEstado = Simulacion.ECerraduraEstado(afn,EstadosAFN.get(h),EstadosAFN.get(h),0);
-				eClousure.add(eClousureEstado);
-			}
+			ArrayList<Integer> Caminosa = Simulacion.ECerraduraEstado(afn,7,7,0);
+  			for(int j=0; j<Caminosa.size(); j++){
+  				System.out.println(Caminosa.get(j));
+  			}
 			
 			
 			

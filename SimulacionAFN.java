@@ -14,6 +14,9 @@ public class SimulacionAFN{
 					if(Identificador==0){
 					EstadosAnteriores.push(Recorriendo.GetEstadoInicial());
 					}
+					if(!(Estados.contains(PrimerEstado))){
+						Estados.add(PrimerEstado);
+					}
 					Estados.add(Recorriendo.GetEstadoFinal());
 					ECerraduraEstado(afn,Recorriendo.GetEstadoFinal(),PrimerEstado,0);
 					Identificador=0;
@@ -30,8 +33,13 @@ public class SimulacionAFN{
 			}
 			}
 			
-	public void Mover(){
+	// public void Mover(ArrayList<Integer> s,char c){
+		// for(int i=0;i<s.size();i++){
+			// int Numero = s.get(i);
+			
+		// }
 		
-	}
+	
+	// }
 		return null;}
 	}
