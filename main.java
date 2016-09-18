@@ -43,7 +43,10 @@ public class main{
 			
 			
 			AFN afn = (AFN) st.pop();
-			Simulacion.ECerraduraEstado(afn);
+			ArrayList<Integer> Caminosa = Simulacion.ECerraduraEstado(afn,6,6);
+			for(int j=0; j<Caminosa.size(); j++){
+				System.out.println(Caminosa.get(j));
+			}
 
 			// AFN prueba5 = (AFN) st.pop();
 			// System.out.println("NodoInicial " + prueba5.GetEstadoInicial());
