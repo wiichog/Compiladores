@@ -43,10 +43,18 @@ public class main{
 			
 			
 			AFN afn = (AFN) st.pop();
-			ArrayList<Integer> Caminosa = Simulacion.ECerraduraEstado(afn,7,7,0);
-  			for(int j=0; j<Caminosa.size(); j++){
-  				System.out.println(Caminosa.get(j));
-  			}
+			ArrayList<Integer> S0 = Simulacion.ECerraduraEstado(afn,afn.GetEstadoInicial(),afn.GetEstadoInicial(),0);
+			String Cadena = ("a");
+			Cadena = Cadena + "%"; //EOF va a ser %
+			for(int i=0;i<Cadena.length();i++){
+				String c = Character.toString(Cadena.charAt(i));
+				if(!(c.equals("%"))){
+					Simulacion.Mover(afn,S0,c);
+				}
+			}
+  			// for(int j=0; j<S0.size(); j++){
+  				// System.out.println(S0.get(j));
+  			// }
 			
 			
 			
