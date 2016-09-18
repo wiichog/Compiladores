@@ -13,8 +13,8 @@ public class main{
 		Stack st = new Stack();
 		Thompson AFN = new Thompson();
 		Postfix post = new Postfix();
-        String ExpresionRegular =("(a|b)*abb");
-		String Postfix = post.infixToPostfix(ExpresionRegular);
+		String ExpresionRegular =("(a|b)*abb");
+        String Postfix = post.infixToPostfix(ExpresionRegular);
 		System.out.println(Postfix);
 		SimulacionAFN Simulacion = new SimulacionAFN();
 		int contador = 0;
@@ -43,11 +43,25 @@ public class main{
 			
 			
 			AFN afn = (AFN) st.pop();
-			ArrayList<Integer> Caminosa = Simulacion.ECerraduraEstado(afn,5,5,0);
-			for(int j=0; j<Caminosa.size(); j++){
-				System.out.println(Caminosa.get(j));
+			ArrayList<Transicion> CaminosAFN = afn.GetCaminos();
+			ArrayList<Integer> EstadosAFN = new ArrayList<Integer>();
+			for(int i=0; i<CaminosAFN.size();i++){
+				Transicion Camino = CaminosAFN.get(i);
+				if(!(EstadosAFN.contains(Camino.GetEstadoInicial()))){
+					EstadosAFN.add(Camino.GetEstadoInicial());
+				}
 			}
-
+			String Palabra =("");
+			ArrayList<ArrayList<Integer>> eClousure = new ArrayList<ArrayList<Integer>>();
+			for(int h=0;h<EstadosAFN.size();h++){
+				ArrayList<Integer> eClousureEstado = Simulacion.ECerraduraEstado(afn,EstadosAFN.get(h),EstadosAFN.get(h),0);
+				eClousure.add(eClousureEstado);
+			}
+			
+			
+			
+			
+			//ESTE CODIGO DE AQUI ABAJO ES PARA PODER IMPRIMIR EL AFN
 			// AFN prueba5 = (AFN) st.pop();
 			// System.out.println("NodoInicial " + prueba5.GetEstadoInicial());
 			// System.out.println("NodoFinal " + prueba5.GetEstadoFinal());

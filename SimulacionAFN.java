@@ -28,8 +28,10 @@ public class SimulacionAFN{
 					ECerraduraEstado(afn,EstadoAnterior,PrimerEstado,1);
 					return Estados;
 			}
-			
-			//Recorridos.remove(j);
 			}
+			
+	public void Mover(){
+		
+	}
 		return null;}
 	}
