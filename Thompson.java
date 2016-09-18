@@ -125,10 +125,4 @@ public class Thompson{
 		public void SetEstadoFinal(int Identificador){
 			EstadoFinal.SetIdentificador(Identificador);
 		}
-	
-	
-	
-	
-	
-	
 }
