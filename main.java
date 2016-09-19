@@ -13,10 +13,19 @@ public class main{
 		Stack st = new Stack();
 		Thompson AFN = new Thompson();
 		Postfix post = new Postfix();
+		ArrayList<Integer> S0 = new ArrayList<Integer>();
+		ArrayList<ArrayList<Integer>> AFD = new ArrayList<ArrayList<Integer>>();
+		
+		ArrayList<String> Alfabeto = new ArrayList<String>();
+		ArrayList<Integer> Mover = new ArrayList<Integer>();
+		ArrayList<Integer> EstadosAFN = new ArrayList<Integer>();
+		SimulacionAFN Simulacion = new SimulacionAFN();
+		AFNtoAFD AFNAFD = new AFNtoAFD();
+	//YA NOS MAS OBJETOS!
 		String ExpresionRegular =("(a|b)*abb");
         String Postfix = post.infixToPostfix(ExpresionRegular);
 		System.out.println(Postfix);
-		SimulacionAFN Simulacion = new SimulacionAFN();
+		
 		int contador = 0;
 		for (int i=0; i<Postfix.length(); i++) { 
 			char posicion = Postfix.charAt(i); 
@@ -41,12 +50,8 @@ public class main{
 			
 			}
 			
-			
 			AFN afn = (AFN) st.pop();
-			ArrayList<Integer> S0 = new ArrayList<Integer>();
-			ArrayList<Integer> Mover = new ArrayList<Integer>();
 			ArrayList<Transicion> DTRAN = afn.GetCaminos();
-			ArrayList<Integer> EstadosAFN = new ArrayList<Integer>();
 			for(int i=0;i<DTRAN.size();i++){
 				Transicion Numero = DTRAN.get(i);
 				int EstadoInicial = Numero.GetEstadoInicial();
@@ -57,13 +62,14 @@ public class main{
 			}
 			
 			S0.addAll(Simulacion.ECerraduraEstado(afn,afn.GetEstadoInicial(),afn.GetEstadoInicial(),0));
+			AFD.add(S0);
 			Simulacion.Estados.clear();
-			
 			String Cadena = ("a");
 			Cadena = Cadena + "%"; //EOF va a ser %
 			for(int i=0;i<Cadena.length();i++){
 				String c = Character.toString(Cadena.charAt(i));
 				if(!(c.equals("%"))){
+					if(!Alfabeto.contains(c)){Alfabeto.add(c);}
 					Mover.addAll(Simulacion.Mover(afn,S0,c));
 				}
 				Simulacion.Estados.clear();
@@ -76,4 +82,10 @@ public class main{
 				}
 			}		
 			System.out.println("RESULTADO DE LA SIMULACION "+Simulacion.Interseccion(S0,EstadosAFN));
-}}
+			AFNAFD.ThompsonToAFD(afn,Alfabeto,AFD);
+			
+			
+			}
+
+
+}
