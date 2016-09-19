@@ -45,7 +45,17 @@ public class main{
 			AFN afn = (AFN) st.pop();
 			ArrayList<Integer> S0 = new ArrayList<Integer>();
 			ArrayList<Integer> Mover = new ArrayList<Integer>();
-			ArrayList<Integer> DTRAN = new ArrayList<Integer>();
+			ArrayList<Transicion> DTRAN = afn.GetCaminos();
+			ArrayList<Integer> EstadosAFN = new ArrayList<Integer>();
+			for(int i=0;i<DTRAN.size();i++){
+				Transicion Numero = DTRAN.get(i);
+				int EstadoInicial = Numero.GetEstadoInicial();
+				int EstadoFinal = Numero.GetEstadoFinal();
+				if(!(DTRAN.contains(EstadoInicial)) || !(DTRAN.contains(EstadoFinal))){
+					EstadosAFN.add(EstadoInicial);
+				}
+			}
+			
 			S0.addAll(Simulacion.ECerraduraEstado(afn,afn.GetEstadoInicial(),afn.GetEstadoInicial(),0));
 			Simulacion.Estados.clear();
 			
@@ -61,8 +71,9 @@ public class main{
 				for(int j=0;j<Mover.size();j++){
 					if(!(c.equals("%"))){
 						Simulacion.Estados.clear();
-						DTRAN.addAll(Simulacion.ECerraduraEstado(afn,Mover.get(j),Mover.get(j),0));
+						S0 = Simulacion.ECerraduraEstado(afn,Mover.get(j),Mover.get(j),0);
 					}
 				}
 			}		
+			System.out.println("RESULTADO DE LA SIMULACION "+Simulacion.Interseccion(S0,EstadosAFN));
 }}

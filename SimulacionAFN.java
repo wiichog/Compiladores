@@ -59,4 +59,20 @@ public class SimulacionAFN{
 					Recorriendo.SetMarcado(false);
 				}
 		}
+		
+		public String Interseccion(ArrayList<Integer> S, ArrayList<Integer> F){
+			ArrayList<Integer> Interseccion = new ArrayList<Integer>();
+			for(int i=0; i<S.size();i++){
+				int Numero = S.get(i);
+				if(!(F.contains(Numero))){
+					Interseccion.add(Numero);
+				}
+			}
+		if(Interseccion.size()>0){
+			return "Si";
+		}
+		else{
+			return "No";
+		}
+		}
 }
