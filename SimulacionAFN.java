@@ -49,6 +49,14 @@ public class SimulacionAFN{
 			}
 		
 		
-	return null;
+	return Estados;
 	}
+	
+		public void DesmarcarAFN(AFN afn){
+			ArrayList<Transicion> Recorridos = afn.GetCaminos();
+			for(int j=0;j<Recorridos.size();j++){
+					Transicion Recorriendo = Recorridos.get(j);
+					Recorriendo.SetMarcado(false);
+				}
+		}
 }

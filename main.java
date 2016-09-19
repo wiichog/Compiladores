@@ -43,38 +43,26 @@ public class main{
 			
 			
 			AFN afn = (AFN) st.pop();
-			ArrayList<Integer> S0 = Simulacion.ECerraduraEstado(afn,afn.GetEstadoInicial(),afn.GetEstadoInicial(),0);
+			ArrayList<Integer> S0 = new ArrayList<Integer>();
+			ArrayList<Integer> Mover = new ArrayList<Integer>();
+			ArrayList<Integer> DTRAN = new ArrayList<Integer>();
+			S0.addAll(Simulacion.ECerraduraEstado(afn,afn.GetEstadoInicial(),afn.GetEstadoInicial(),0));
+			Simulacion.Estados.clear();
+			
 			String Cadena = ("a");
 			Cadena = Cadena + "%"; //EOF va a ser %
 			for(int i=0;i<Cadena.length();i++){
 				String c = Character.toString(Cadena.charAt(i));
 				if(!(c.equals("%"))){
-					Simulacion.Mover(afn,S0,c);
+					Mover.addAll(Simulacion.Mover(afn,S0,c));
 				}
-			}
-  			// for(int j=0; j<S0.size(); j++){
-  				// System.out.println(S0.get(j));
-  			// }
-			
-			
-			
-			
-			//ESTE CODIGO DE AQUI ABAJO ES PARA PODER IMPRIMIR EL AFN
-			// AFN prueba5 = (AFN) st.pop();
-			// System.out.println("NodoInicial " + prueba5.GetEstadoInicial());
-			// System.out.println("NodoFinal " + prueba5.GetEstadoFinal());
-			// ArrayList<Transicion> Caminosa = prueba5.GetCaminos();//en este array vamos a guardar todos los caminos del primer caracter para el or
-			
-			// for(int j=0; j<Caminosa.size(); j++){
-				// Transicion prueba2 = Caminosa.get(j);
-				// System.out.println("");
-				// System.out.println("CaminoInicio " + prueba2.GetEstadoInicial());
-				// System.out.println("CaminoFinal " + prueba2.GetEstadoFinal());
-				// System.out.println("Simbolo " + prueba2.GetSimbolo());
-				// System.out.println("");
-			
-				
-				
-		// }	
-		
+				Simulacion.Estados.clear();
+				Simulacion.DesmarcarAFN(afn);
+				for(int j=0;j<Mover.size();j++){
+					if(!(c.equals("%"))){
+						Simulacion.Estados.clear();
+						DTRAN.addAll(Simulacion.ECerraduraEstado(afn,Mover.get(j),Mover.get(j),0));
+					}
+				}
+			}		
 }}
