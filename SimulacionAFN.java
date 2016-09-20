@@ -5,6 +5,7 @@ public class SimulacionAFN{
 	public ArrayList<Integer> EstadosLetras = new ArrayList<Integer>();
 	public int EstadoAnterior = 0;
 	public Stack<Integer> EstadosAnteriores = new Stack<Integer>();
+	public ArrayList<Integer> Mover = new ArrayList<Integer>();
 	
 	public ArrayList<Integer> ECerraduraEstado(AFN afn, int Estado,int PrimerEstado,int Identificador){
 		ArrayList<Transicion> Recorridos = afn.GetCaminos();
@@ -28,7 +29,7 @@ public class SimulacionAFN{
 					try{
 					EstadoAnterior = EstadosAnteriores.pop();
 					}
-					catch(Exception e){ return Estados;}
+					catch(Exception e){Estados.add(0);  return Estados;}
 					ECerraduraEstado(afn,EstadoAnterior,PrimerEstado,1);
 					return Estados;
 			}
@@ -44,11 +45,11 @@ public class SimulacionAFN{
 				for(int j=0;j<Recorridos.size();j++){
 					Transicion Recorriendo = Recorridos.get(j);
 					if(Recorriendo.GetEstadoInicial()==Numero && Recorriendo.GetSimbolo().equals(c)){
-						Estados.add(Recorriendo.GetEstadoFinal());
+						Mover.add(Recorriendo.GetEstadoFinal());
 					}
 				}
 			}
-	return Estados;
+	return Mover;
 	}
 	
 		public void DesmarcarAFN(AFN afn){
