@@ -22,7 +22,7 @@ public class main{
 		SimulacionAFN Simulacion = new SimulacionAFN();
 		AFNtoAFD AFNAFD = new AFNtoAFD();
 	//YA NOS MAS OBJETOS!
-		String ExpresionRegular =("(a|b)*abb");
+		String ExpresionRegular =("a");
         String Postfix = post.infixToPostfix(ExpresionRegular);
 		System.out.println(Postfix);
 		
