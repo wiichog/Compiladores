@@ -12,6 +12,7 @@ public class SimulacionAFN{
 		for(int j=0;j<Recorridos.size();j++){
 			Transicion Recorriendo = Recorridos.get(j);
 			if(Recorriendo.GetEstadoInicial()==Estado && Recorriendo.GetSimbolo().equals("«") && Recorriendo.GetMarcado()==false){
+					System.out.println("Entro al primero");
 					Recorriendo.SetMarcado(true);
 					if(Identificador==0){
 					EstadosAnteriores.push(Recorriendo.GetEstadoInicial());
@@ -29,13 +30,13 @@ public class SimulacionAFN{
 					try{
 					EstadoAnterior = EstadosAnteriores.pop();
 					}
-					catch(Exception e){Estados.add(0);  return Estados;}
+					catch(Exception e){Estados.add(PrimerEstado);  return Estados;}
 					ECerraduraEstado(afn,EstadoAnterior,PrimerEstado,1);
 					return Estados;
 			}
 			}
-
-		return null;}
+		Estados.add(afn.GetEstadoFinal());
+		return Estados;}
 		
 		
 		public ArrayList<Integer> Mover(AFN afn,ArrayList<Integer> s,String c){

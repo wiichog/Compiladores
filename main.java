@@ -22,7 +22,7 @@ public class main{
 		SimulacionAFN Simulacion = new SimulacionAFN();
 		AFNtoAFD AFNAFD = new AFNtoAFD();
 	//YA NOS MAS OBJETOS!
-		String ExpresionRegular =("(a|b)*abb");
+		String ExpresionRegular =("a");
         String Postfix = post.infixToPostfix(ExpresionRegular);
 		int contador = 0;
 		for (int i=0; i<Postfix.length(); i++) { 
@@ -60,7 +60,7 @@ public class main{
 						Simulacion.DesmarcarAFN(afn);
 						Simulacion.Mover.clear();
 			S0 = Simulacion.ECerraduraEstado(afn,afn.GetEstadoInicial(),afn.GetEstadoInicial(),0);
-			String c = "aaabba";
+			String c = "a";
 			c = c + "%";
 			//*******Algoritmo Pagina 156 Libro de Dragon
 			for(int i=0; i<c.length();i++)
@@ -68,60 +68,23 @@ public class main{
 				String z = Character.toString(c.charAt(i));
 				
 				if(!z.equals("%")){
-					System.out.println("El simbolo es "+ z);
-					S.addAll(Simulacion.Mover(afn,S0,z));//Aqui tenemos
-					for(int t=0;t<S.size();t++){System.out.println("Numero en S (Mover) "+S.get(t));}
+					S.addAll(Simulacion.Mover(afn,S0,z));//Aqui tenemos mover del estado inicial
 					for(int j=0;j<S.size();j++){
-						Simulacion.Estados.clear();
-						Simulacion.DesmarcarAFN(afn);
-						Simulacion.Mover.clear();
-						S1.addAll(Simulacion.ECerraduraEstado(afn,S.get(j),S.get(j),0));
-						}	
+						Simulacion.Estados.clear();//vaciamos los arraylist
+						Simulacion.DesmarcarAFN(afn);//para poder recorrer el arbol
+						Simulacion.Mover.clear();//vaciamos arraylist
+						S1.addAll(Simulacion.ECerraduraEstado(afn,S.get(j),S.get(j),0));//hacemos eclousure de mover y lo agregamos a un vector
 				S0.clear();
 				S0.addAll(S1);
-				for(int t=0;t<S0.size();t++){System.out.println("Numero en S0 "+S0.get(t));}
 				S1.clear();
 				S.clear();
 				}
+				if(S0.contains(afn.GetEstadoFinal())){System.out.println("Si");}
+				else{System.out.println("No");}	
 			}
-			
-			// for(int i=0;i<CaminosAFN.size();i++){
-				// Transicion Numero = CaminosAFN.get(i);
-				// int EstadoInicial = Numero.GetEstadoInicial();
-				// int EstadoFinal = Numero.GetEstadoFinal();
-				// if(!(CaminosAFN.contains(EstadoInicial)) || !(CaminosAFN.contains(EstadoFinal))){
-					// EstadosAFN.add(EstadoInicial);
-				// }
-			// }
-			// S0.addAll(Simulacion.ECerraduraEstado(CaminosAFN,afn.GetEstadoInicial(),afn.GetEstadoInicial(),0));
-			// for(int h=0;h<S0.size();h++){System.out.println(S0.get(h));}
-			// AFD.add(S0);
-			// Simulacion.Estados.clear();
-			// String Cadena = ("a");
-			// Cadena = Cadena + "%"; //EOF va a ser %
-			// for(int i=0;i<Cadena.length();i++){
-				// String c = Character.toString(Cadena.charAt(i));
-				// if(!(c.equals("%"))){
-					// if(!Alfabeto.contains(c)){Alfabeto.add(c);}
-					// Mover.addAll(Simulacion.Mover(afn,S0,c));
-				// }
-				// Simulacion.Estados.clear();
-				// Simulacion.DesmarcarAFN(afn);
-				// for(int j=0;j<Mover.size();j++){
-					// if(!(c.equals("%"))){
-						// Simulacion.Estados.clear();
-						// S0 = Simulacion.ECerraduraEstado(afn,Mover.get(j),Mover.get(j),0);
-					// }
-				// }
-			// }		
-			// System.out.println("Holis");
-			
-			
-			//System.out.println("RESULTADO DE LA SIMULACION "+Simulacion.Interseccion(S0,EstadosAFN));
-			//AFNAFD.ThompsonToAFD(afn,Alfabeto,AFD);
-			
 			
 			}
 
 
+}
 }
