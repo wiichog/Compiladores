@@ -15,14 +15,13 @@ public class main{
 		Postfix post = new Postfix();
 		ArrayList<Integer> S0 = new ArrayList<Integer>();
 		ArrayList<ArrayList<Integer>> AFD = new ArrayList<ArrayList<Integer>>();
-		
 		ArrayList<String> Alfabeto = new ArrayList<String>();
 		ArrayList<Integer> Mover = new ArrayList<Integer>();
 		ArrayList<Integer> EstadosAFN = new ArrayList<Integer>();
 		SimulacionAFN Simulacion = new SimulacionAFN();
 		AFNtoAFD AFNAFD = new AFNtoAFD();
 	//YA NOS MAS OBJETOS!
-		String ExpresionRegular =("a");
+		String ExpresionRegular =("(a|b)*abb");
         String Postfix = post.infixToPostfix(ExpresionRegular);
 		int contador = 0;
 		for (int i=0; i<Postfix.length(); i++) { 
@@ -49,18 +48,17 @@ public class main{
 			//***********************************SIMULACION DE AFN******************************
 			AFN afn = (AFN) st.pop();
 			ArrayList<Transicion> CaminosAFN = afn.GetCaminos();
-			ArrayList<Integer> Prueba = new ArrayList<Integer>();
 			ArrayList<Integer> S1 = new ArrayList<Integer>();
 			ArrayList<Integer> S = new ArrayList<Integer>();
 			//PARA VOLVER A UTILIZAR ECLOUSURE SIEMPRE LE TENEMOS QUE DESMARCAR EL ARBOL Y LIMPIAR ESTADOS
 			//Simulacion.Estados.clear();
 			//Simulacion.DesmarcarAFN(afn);
-			//for(int t=0;t<Aarray.size();t++){}
+			//for(int t=0;t<Aarray.size();t++){System.out.println();}
 						Simulacion.Estados.clear();
 						Simulacion.DesmarcarAFN(afn);
 						Simulacion.Mover.clear();
 			S0 = Simulacion.ECerraduraEstado(afn,afn.GetEstadoInicial(),afn.GetEstadoInicial(),0);
-			String c = "a";
+			String c = "abb";
 			c = c + "%";
 			//*******Algoritmo Pagina 156 Libro de Dragon
 			for(int i=0; i<c.length();i++)
@@ -81,9 +79,24 @@ public class main{
 				}
 				if(S0.contains(afn.GetEstadoFinal())){System.out.println("Si");}
 				else{System.out.println("No");}	
+			}			
 			}
-			
+			//**************CONVERSION DE AFN A AFD
+			for(int g=0;g<CaminosAFN.size();g++){
+				Transicion Letra = CaminosAFN.get(g);
+				if(!(Alfabeto.contains(Letra.GetSimbolo())) && !(Letra.GetSimbolo().equals("«")))
+				{
+					Alfabeto.add(Letra.GetSimbolo());
+				}
 			}
+						ArrayList<Integer> Prueba = new ArrayList<Integer>();
+						Simulacion.Estados.clear();//vaciamos los arraylist
+						Simulacion.DesmarcarAFN(afn);//para poder recorrer el arbol
+						Simulacion.Mover.clear();//vaciamos arraylist
+						Prueba.addAll(Simulacion.ECerraduraEstado(afn,afn.GetEstadoInicial(),afn.GetEstadoInicial(),0));//hacemos eclousure de mover y lo agregamos a un vector
+						//for(int t=0;t<Prueba.size();t++){System.out.println(Prueba.get(t));}
+			AFNtoAFD Conversion = new AFNtoAFD();
+			Conversion.ThompsonToAFD(afn,Alfabeto,Prueba,0);
 
 
 }

@@ -2,39 +2,52 @@ import java.util.*;
 public class AFNtoAFD{
 		
 		SimulacionAFN Simulacion = new SimulacionAFN();
-		ArrayList<ArrayList<Integer>> ComparacionEstados = new ArrayList<ArrayList<Integer>>();
-		ArrayList<Integer> EstadoDespuesDeMover = new ArrayList<Integer>();
-		ArrayList<Integer> EstadosDespuesDeEclousure= new ArrayList<Integer>();
+		ArrayList<ArrayList<Integer>> EstadosAFD = new ArrayList<ArrayList<Integer>>();
+		ArrayList<Integer> S = new ArrayList<Integer>();
+		ArrayList<Integer> ArrayMover= new ArrayList<Integer>();
+		ArrayList<Integer> ArrayEclousure= new ArrayList<Integer>();
+		ArrayList<TransicionAFD> EstadosFinalesAFD= new ArrayList<TransicionAFD>();
+		public String z = "";
 		
-		public void ThompsonToAFD(AFN afn,ArrayList<String> Alfabeto,ArrayList<ArrayList<Integer>> EstadoInicial){
-			ArrayList<Transicion> Caminos = afn.GetCaminos();
-			for(int i=0;i<EstadoInicial.size();i++){
-				ArrayList<Integer> Estado = new ArrayList<Integer>();
-				Estado.addAll(EstadoInicial.get(i));
-				for(int j=0;j<Alfabeto.size();j++){
-					String Letra = Alfabeto.get(j);
-						for(int k=0;k<Estado.size();k++){
-							int Numero = Estado.get(k);
-							if ((Simulacion.MoverLetra(afn,Numero,Letra)!=-1)){
-								EstadoDespuesDeMover.add(Simulacion.MoverLetra(afn,Numero,Letra));}
+		public ArrayList<TransicionAFD> ThompsonToAFD(AFN afn,ArrayList<String> Alfabeto,ArrayList<Integer> Estado,int Identificador){
+			if(Identificador==0){
+				EstadosAFD.add(Estado);}
+			for(int i=0; i<Alfabeto.size();i++){
+						z = Alfabeto.get(i);
+						System.out.println("LA LETRA ES " +z);
+						//primero tenemos que hacer mover
+								Simulacion.Estados.clear();//vaciamos los arraylist
+								Simulacion.DesmarcarAFN(afn);//para poder recorrer el arbol
+								Simulacion.Mover.clear();//vaciamos arraylist
+						ArrayMover.addAll(Simulacion.Mover(afn,Estado,z));//Aqui tenemos mover
+						for(int k=0;k<ArrayMover.size();k++){//vamos a recorrer mover para enviarlo a eclousure
+								int Numero = ArrayMover.get(i);
+								Simulacion.Estados.clear();//vaciamos los arraylist
+								Simulacion.DesmarcarAFN(afn);//para poder recorrer el arbol
+								Simulacion.Mover.clear();//vaciamos arraylist
+								ArrayEclousure.addAll(Simulacion.ECerraduraEstado(afn,ArrayMover.get(k),ArrayMover.get(k),0));//hacemos eclousure de mover y lo agregamos a un vector
 						}
-					}
-						for(int r=0; r<EstadoDespuesDeMover.size();r++){
-							int Numero = EstadoDespuesDeMover.get(r);
-							EstadosDespuesDeEclousure.addAll(Simulacion.ECerraduraEstado(afn,Numero,Numero,0));
-						}						
-				
-					if(!(ComparacionEstados.contains(EstadosDespuesDeEclousure))){
-						ComparacionEstados.add(EstadosDespuesDeEclousure);
-					}
-					else{
-						System.out.println("YA TENES TU AFD");
-					}}
+						System.out.println("********************");
+						for(int t=0;t<ArrayEclousure.size();t++){System.out.println("Numero en ArrayEclousure "+ArrayEclousure.get(t));}
+						System.out.println("********************");
+				if(!(EstadosAFD.contains(ArrayEclousure)) && (ArrayEclousure.size()!=0)){
+					EstadosAFD.add(ArrayEclousure);
+					TransicionAFD Transicion = new TransicionAFD();
+					Transicion.SetInicio(Estado);
+					Transicion.SetFinal(ArrayEclousure);
+					Transicion.SetSimbolo(z);
+					EstadosFinalesAFD.add(Transicion);
+					ArrayMover.clear();
+					Estado.clear();
+					Estado.addAll(ArrayEclousure);
+					ArrayEclousure.clear();
+					}	
+				}
+			
+			
+						
+				return EstadosFinalesAFD;
 			}
-
-
-
-
-
-
-}
+			
+			}
+			

@@ -12,7 +12,6 @@ public class SimulacionAFN{
 		for(int j=0;j<Recorridos.size();j++){
 			Transicion Recorriendo = Recorridos.get(j);
 			if(Recorriendo.GetEstadoInicial()==Estado && Recorriendo.GetSimbolo().equals("«") && Recorriendo.GetMarcado()==false){
-					System.out.println("Entro al primero");
 					Recorriendo.SetMarcado(true);
 					if(Identificador==0){
 					EstadosAnteriores.push(Recorriendo.GetEstadoInicial());
@@ -35,7 +34,8 @@ public class SimulacionAFN{
 					return Estados;
 			}
 			}
-		Estados.add(afn.GetEstadoFinal());
+		if(Estado==afn.GetEstadoFinal()){
+		Estados.add(afn.GetEstadoFinal());}
 		return Estados;}
 		
 		
@@ -47,11 +47,11 @@ public class SimulacionAFN{
 					Transicion Recorriendo = Recorridos.get(j);
 					if(Recorriendo.GetEstadoInicial()==Numero && Recorriendo.GetSimbolo().equals(c)){
 						Mover.add(Recorriendo.GetEstadoFinal());
+						}
 					}
 				}
-			}
-	return Mover;
-	}
+		return Mover;
+		}
 	
 		public void DesmarcarAFN(AFN afn){
 			ArrayList<Transicion> Recorridos = afn.GetCaminos();
@@ -59,34 +59,17 @@ public class SimulacionAFN{
 					Transicion Recorriendo = Recorridos.get(j);
 					Recorriendo.SetMarcado(false);
 				}
-		}
+		}	
 		
-		public String Interseccion(ArrayList<Integer> S, ArrayList<Integer> F){
-			ArrayList<Integer> Interseccion = new ArrayList<Integer>();
-			for(int i=0; i<S.size();i++){
-				int Numero = S.get(i);
-				if(!(F.contains(Numero))){
-					Interseccion.add(Numero);
-				}
-			}
-		if(Interseccion.size()>0){
-			return "Si";
-		}
-		else{
-			return "No";
-		}
-		}
-		
-		
-	public int MoverLetra(AFN afn,int Numero,String c){
-				ArrayList<Transicion> Recorridos = afn.GetCaminos();
-				for(int j=0;j<Recorridos.size();j++){
-					Transicion Recorriendo = Recorridos.get(j);
-					if(Recorriendo.GetEstadoInicial()==Numero && Recorriendo.GetSimbolo().equals(c)){
-						return Recorriendo.GetEstadoFinal();
+		public int MoverLetra(AFN afn,int Numero,String c){
+					ArrayList<Transicion> Recorridos = afn.GetCaminos();
+					for(int j=0;j<Recorridos.size();j++){
+						Transicion Recorriendo = Recorridos.get(j);
+						if(Recorriendo.GetEstadoInicial()==Numero && Recorriendo.GetSimbolo().equals(c)){
+							return Recorriendo.GetEstadoFinal();
+						}
 					}
+				return -1;
 				}
-			return -1;
-			}
-		
+			
 }
