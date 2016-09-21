@@ -96,8 +96,21 @@ public class main{
 						Prueba.addAll(Simulacion.ECerraduraEstado(afn,afn.GetEstadoInicial(),afn.GetEstadoInicial(),0));//hacemos eclousure de mover y lo agregamos a un vector
 						//for(int t=0;t<Prueba.size();t++){System.out.println(Prueba.get(t));}
 			AFNtoAFD Conversion = new AFNtoAFD();
-			Conversion.ThompsonToAFD(afn,Alfabeto,Prueba,0);
-
-
+			Stack<ArrayList<Integer>> AFDTransitorio = new Stack<ArrayList<Integer>>();
+			AFDTransitorio.push(Prueba);
+			ArrayList<ArrayList<Integer>> EstadosAFDTransitorios = new ArrayList<ArrayList<Integer>>();
+			ArrayList<ArrayList<Integer>> EstadosFinalesAFD = new ArrayList<ArrayList<Integer>>();
+			
+			
+			
+			while(!(AFDTransitorio.isEmpty())){
+			EstadosAFDTransitorios.addAll(Conversion.ThompsonToAFD(afn,Alfabeto,AFDTransitorio.pop(),0));
+			for(int m=0;m<EstadosAFDTransitorios.size();m++){
+					ArrayList<Integer> Sistema = EstadosAFDTransitorios.get(m);
+					if(!(EstadosFinalesAFD.contains(Sistema))){
+						EstadosFinalesAFD.add(Sistema);
+						AFDTransitorio.push(Sistema);
+					}
+			}}
 }
 }

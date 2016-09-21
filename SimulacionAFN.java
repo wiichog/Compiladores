@@ -60,16 +60,5 @@ public class SimulacionAFN{
 					Recorriendo.SetMarcado(false);
 				}
 		}	
-		
-		public int MoverLetra(AFN afn,int Numero,String c){
-					ArrayList<Transicion> Recorridos = afn.GetCaminos();
-					for(int j=0;j<Recorridos.size();j++){
-						Transicion Recorriendo = Recorridos.get(j);
-						if(Recorriendo.GetEstadoInicial()==Numero && Recorriendo.GetSimbolo().equals(c)){
-							return Recorriendo.GetEstadoFinal();
-						}
-					}
-				return -1;
-				}
 			
 }
