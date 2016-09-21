@@ -112,5 +112,14 @@ public class main{
 						AFDTransitorio.push(Sistema);
 					}
 			}}
+	//*************************SIMULACION AFD
+	ArrayList<TransicionAFD> Caminos= new ArrayList<TransicionAFD>();
+	for(int i=0; i<Caminos.size();i++){
+		TransicionAFD Transicion = new TransicionAFD();
+	}
+	for(int i=0; i<c.length();i++){
+		String z = Character.toString(c.charAt(i));
+		
+	}
 }
 }

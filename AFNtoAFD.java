@@ -8,6 +8,7 @@ public class AFNtoAFD{
 		ArrayList<Integer> ArrayEclousure= new ArrayList<Integer>();
 		ArrayList<TransicionAFD> EstadosFinalesAFD= new ArrayList<TransicionAFD>();
 		public String z = "";
+		AFD afd = new AFD();
 		
 		public ArrayList<ArrayList<Integer>> ThompsonToAFD(AFN afn,ArrayList<String> Alfabeto,ArrayList<Integer> Estado,int Identificador){
 			for(int i=0; i<Alfabeto.size();i++){
@@ -26,6 +27,13 @@ public class AFNtoAFD{
 						}
 						ArrayList<Integer> Prueba55 = new ArrayList<Integer>();
 						Prueba55.addAll(ArrayEclousure);
+						
+						TransicionAFD Transicion = new TransicionAFD();
+						Transicion.SetInicio(Estado);
+						Transicion.SetFinal(Prueba55);
+						Transicion.SetSimbolo(z);
+						afd.SetArray(Transicion);
+						
 						EstadosAFD.add(Prueba55);
 						ArrayEclousure.clear();
 						ArrayMover.clear();
@@ -34,4 +42,3 @@ public class AFNtoAFD{
 			}
 			
 			}
-			
