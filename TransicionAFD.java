@@ -1,6 +1,9 @@
 import java.util.*;
+import java.io.*;
 public class TransicionAFD{
 	
+	ArrayList<Integer> Inicio = new ArrayList<Integer>();
+	ArrayList<Integer> Final = new ArrayList<Integer>();
 	String Simbolo;
 	
 	public void TransicionAFD(){}

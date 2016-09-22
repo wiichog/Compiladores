@@ -1,0 +1,1 @@
+Camino de Inicio	Termina Camino de InicioLa transicion tiene Simbolo: bCamino Destino	Termina Camino Destino

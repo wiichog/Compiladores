@@ -21,7 +21,8 @@ public class main{
 		SimulacionAFN Simulacion = new SimulacionAFN();
 		AFNtoAFD AFNAFD = new AFNtoAFD();
 	//YA NOS MAS OBJETOS!
-		String ExpresionRegular =("(a|b)*abb");
+		System.out.println("Ingresar expresion regular");
+		String ExpresionRegular =teclado.nextLine();
         String Postfix = post.infixToPostfix(ExpresionRegular);
 		int contador = 0;
 		for (int i=0; i<Postfix.length(); i++) { 
@@ -47,7 +48,15 @@ public class main{
 			}
 			//***********************************SIMULACION DE AFN******************************
 			AFN afn = (AFN) st.pop();
+			
 			ArrayList<Transicion> CaminosAFN = afn.GetCaminos();
+			System.out.println("///////////// AFN ////////////////");
+			for(int t=0;t<CaminosAFN.size();t++){
+				Transicion Camino = CaminosAFN.get(t);
+				System.out.println("Estado Inicial "+Camino.GetEstadoInicial());
+				System.out.println("Estado Final "+Camino.GetEstadoFinal());
+				System.out.println("Simbolo "+Camino.GetSimbolo());
+			}
 			ArrayList<Integer> S1 = new ArrayList<Integer>();
 			ArrayList<Integer> S = new ArrayList<Integer>();
 			//PARA VOLVER A UTILIZAR ECLOUSURE SIEMPRE LE TENEMOS QUE DESMARCAR EL ARBOL Y LIMPIAR ESTADOS
@@ -58,7 +67,8 @@ public class main{
 						Simulacion.DesmarcarAFN(afn);
 						Simulacion.Mover.clear();
 			S0 = Simulacion.ECerraduraEstado(afn,afn.GetEstadoInicial(),afn.GetEstadoInicial(),0);
-			String c = "abb";
+			System.out.println("Ingrese cadena");
+			String c = teclado.nextLine();
 			c = c + "%";
 			//*******Algoritmo Pagina 156 Libro de Dragon
 			for(int i=0; i<c.length();i++)
@@ -77,8 +87,8 @@ public class main{
 				S1.clear();
 				S.clear();
 				}
-				if(S0.contains(afn.GetEstadoFinal())){System.out.println("Si");}
-				else{System.out.println("No");}	
+				if(S0.contains(afn.GetEstadoFinal())){System.out.println("El resultado de la simulacion del AFN es: Si");}
+				else{System.out.println("El resultado de la simulacion del AFN es: No");}	
 			}			
 			}
 			//**************CONVERSION DE AFN A AFD
@@ -101,8 +111,6 @@ public class main{
 			ArrayList<ArrayList<Integer>> EstadosAFDTransitorios = new ArrayList<ArrayList<Integer>>();
 			ArrayList<ArrayList<Integer>> EstadosFinalesAFD = new ArrayList<ArrayList<Integer>>();
 			
-			
-			
 			while(!(AFDTransitorio.isEmpty())){
 			EstadosAFDTransitorios.addAll(Conversion.ThompsonToAFD(afn,Alfabeto,AFDTransitorio.pop(),0));
 			for(int m=0;m<EstadosAFDTransitorios.size();m++){
@@ -113,13 +121,30 @@ public class main{
 					}
 			}}
 	//*************************SIMULACION AFD
-	ArrayList<TransicionAFD> Caminos= new ArrayList<TransicionAFD>();
-	for(int i=0; i<Caminos.size();i++){
-		TransicionAFD Transicion = new TransicionAFD();
+	AFD afd = new AFD();
+	ArrayList<Integer> Inicio = afd.GetInicio();
+	ArrayList<TransicionAFD> array= afd.GetCaminos();
+	ArrayList<Integer> ConjuntoFinal = new ArrayList<Integer>();
+	for(int y=0; y<c.length();y++)
+			{
+				String z = Character.toString(c.charAt(y));
+				
+				if(!z.equals("%")){
+	for(int i=0; i<array.size();i++){
+		TransicionAFD Camino1 = array.get(i);
+		ArrayList<Integer> ConjuntoInicio = Camino1.GetInicio();
+		ConjuntoFinal = Camino1.GetFinal();
+		String Simbolo = Camino1.GetSimbolo();
+		if((ConjuntoInicio==Inicio)&&(Simbolo.equals(z)) && !(Simbolo.equals("%"))){
+			ConjuntoInicio.clear();
+			ConjuntoInicio.addAll(ConjuntoFinal);
+			
+		}
 	}
-	for(int i=0; i<c.length();i++){
-		String z = Character.toString(c.charAt(i));
-		
-	}
+	if(ConjuntoFinal.contains(afn.GetEstadoFinal())){System.out.println("El resultado de la simulacion del AFD es: Si");}
+	else{System.out.println("El resultado de la simulacion del AFD es: NO");}
+				}
 }
+
+	}
 }
