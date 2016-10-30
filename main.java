@@ -21,8 +21,7 @@ public class main{
 		SimulacionAFN Simulacion = new SimulacionAFN();
 		AFNtoAFD AFNAFD = new AFNtoAFD();
 	//YA NOS MAS OBJETOS!
-		System.out.println("Ingresar expresion regular");
-		String ExpresionRegular =teclado.nextLine();
+		String ExpresionRegular =("abba")
         String Postfix = post.infixToPostfix(ExpresionRegular);
 		int contador = 0;
 		for (int i=0; i<Postfix.length(); i++) { 
@@ -46,17 +45,7 @@ public class main{
 				st.push(AFN.Construccion(4,Simbolo,a,null));
 			}
 			}
-			//***********************************SIMULACION DE AFN******************************
 			AFN afn = (AFN) st.pop();
-			
-			ArrayList<Transicion> CaminosAFN = afn.GetCaminos();
-			System.out.println("///////////// AFN ////////////////");
-			for(int t=0;t<CaminosAFN.size();t++){
-				Transicion Camino = CaminosAFN.get(t);
-				System.out.println("Estado Inicial "+Camino.GetEstadoInicial());
-				System.out.println("Estado Final "+Camino.GetEstadoFinal());
-				System.out.println("Simbolo "+Camino.GetSimbolo());
-			}
 			ArrayList<Integer> S1 = new ArrayList<Integer>();
 			ArrayList<Integer> S = new ArrayList<Integer>();
 			//PARA VOLVER A UTILIZAR ECLOUSURE SIEMPRE LE TENEMOS QUE DESMARCAR EL ARBOL Y LIMPIAR ESTADOS
@@ -104,7 +93,7 @@ public class main{
 						Simulacion.DesmarcarAFN(afn);//para poder recorrer el arbol
 						Simulacion.Mover.clear();//vaciamos arraylist
 						Prueba.addAll(Simulacion.ECerraduraEstado(afn,afn.GetEstadoInicial(),afn.GetEstadoInicial(),0));//hacemos eclousure de mover y lo agregamos a un vector
-						//for(int t=0;t<Prueba.size();t++){System.out.println(Prueba.get(t));}
+						
 			AFNtoAFD Conversion = new AFNtoAFD();
 			Stack<ArrayList<Integer>> AFDTransitorio = new Stack<ArrayList<Integer>>();
 			AFDTransitorio.push(Prueba);
@@ -124,6 +113,7 @@ public class main{
 	AFD afd = new AFD();
 	ArrayList<Integer> Inicio = afd.GetInicio();
 	ArrayList<TransicionAFD> array= afd.GetCaminos();
+	System.out.println("Tamano "+ array.size());
 	ArrayList<Integer> ConjuntoFinal = new ArrayList<Integer>();
 	for(int y=0; y<c.length();y++)
 			{
@@ -141,8 +131,9 @@ public class main{
 			
 		}
 	}
+	for(int i=0; i<ConjuntoFinal.size();i++){System.out.println("Numero en COnjunto Final" + ConjuntoFinal.get(i));}
 	if(ConjuntoFinal.contains(afn.GetEstadoFinal())){System.out.println("El resultado de la simulacion del AFD es: Si");}
-	else{System.out.println("El resultado de la simulacion del AFD es: NO");}
+	else{System.out.println("El resultado de la simulacion del AFD es: Si");}
 				}
 }
 
