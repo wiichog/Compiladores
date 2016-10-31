@@ -47,4 +47,25 @@ public class ScannerValidations{
         }return 12;}
 		catch(Exception e){return 45;}
 		}
+		
+	public String GotNameCompiler(File file){
+		try{
+		String cadena = "";
+		String Name1 = "";
+		String Name2 = "";
+		FileReader f = new FileReader(file);
+		BufferedReader b = new BufferedReader(f);
+		while((cadena = b.readLine())!=null) {
+            if(cadena.indexOf("COMPILER")!=-1){
+				Name1 = cadena.substring(9,cadena.length());
+			}
+			if(cadena.indexOf("END")!=-1){
+				Name2 = cadena.substring(4,cadena.length());
+			}
+        }
+		if(Name1.equals(Name2)){return Name1;}else{return "o";}}
+		catch(Exception e){return "";}
+		
+	}
+	
 }

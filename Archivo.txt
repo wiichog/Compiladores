@@ -15,7 +15,7 @@ do = "do".
 
 TOKENS
 
-ident = letter{letter|digit} EXCEPT KEYWORDS.
+ident = letter{letter|digit}.
 number = digit{digit}.
 white = blanco{blanco}.
 
