@@ -34,13 +34,11 @@ public class LeerFichero {
 		BufferedReader b = new BufferedReader(f);
 		while((cadena = b.readLine())!=null) {
             if(cadena.indexOf("CHARACTERS")!=-1){
-				System.out.println("CHARACTERS");
 				CHARACTERS = true;
 				KEYWORDS = false;
 				TOKENS = false;
 			}
 			if(cadena.indexOf("KEYWORDS")!=-1){
-				System.out.println(cadena);
 				CHARACTERS = false;
 				KEYWORDS = true;
 				TOKENS = false;
@@ -52,40 +50,43 @@ public class LeerFichero {
 			}
 			if((cadena.indexOf("=")!=-1) && CHARACTERS==true){
 				String[] Contenido = cadena.split(" ");
-				ArrayList Caracteres = new ArrayList();
 				String  CadenaDeCaracteres = Contenido[2];
-				for(int i=0;i<CadenaDeCaracteres.length();i++){
-					char posicion = CadenaDeCaracteres.charAt(i); 
-					if(!(posicion=='"') || !(posicion=='.')){Caracteres.add(posicion);}
-				}
-				NewExpression CharacterExpression =  new NewExpression(Contenido[0],"CHARACTERS",Caracteres);
+				AFNGenerator generator = new AFNGenerator();
+				AFN afn = generator.MakeString(CadenaDeCaracteres);
+				NewExpression CharacterExpression =  new NewExpression(Contenido[0],"CHARACTERS",afn);
 				SCHARACTERS.push(CharacterExpression);
-				
 		}
 		
 		if((cadena.indexOf("=")!=-1) && KEYWORDS==true){
 				String[] Contenido = cadena.split(" ");
-				ArrayList Caracteres = new ArrayList();
 				String  CadenaDeCaracteres = Contenido[2];
+				String NuevaCadena ="";
 				for(int i=0;i<CadenaDeCaracteres.length();i++){
 					char posicion = CadenaDeCaracteres.charAt(i); 
-					if(!(posicion=='"') || !(posicion=='.')){Caracteres.add(posicion);}
+					if(!(posicion=='"') || !(posicion=='.')){NuevaCadena = NuevaCadena + Character.toString(posicion);}
 				}
-				NewExpression CharacterExpression =  new NewExpression(Contenido[0],"KEYWORDS",Caracteres);
-				SKEYWORDS.push(CharacterExpression);
+				//NewExpression CharacterExpression =  new NewExpression(Contenido[0],"KEYWORDS",NuevaCadena);
+//SKEYWORDS.push(CharacterExpression);
 				
 		}
 		
 		if((cadena.indexOf("=")!=-1) && TOKENS==true){
 				String[] Contenido = cadena.split(" ");
-				ArrayList Caracteres = new ArrayList();
 				String  CadenaDeCaracteres = Contenido[2];
+				String NuevaCadena ="";
 				for(int i=0;i<CadenaDeCaracteres.length();i++){
 					char posicion = CadenaDeCaracteres.charAt(i); 
-					if(!(posicion=='"') || !(posicion=='.')){Caracteres.add(posicion);}
+					if(!(posicion=='"') || !(posicion=='.')){
+						
+						
+						NuevaCadena = NuevaCadena + Character.toString(posicion);
+						
+						
+						
+						}
 				}
-				NewExpression CharacterExpression =  new NewExpression(Contenido[0],"TOKENS",Caracteres);
-				STOKENS.push(CharacterExpression);
+				//NewExpression CharacterExpression =  new NewExpression(Contenido[0],"TOKENS",NuevaCadena);
+				//STOKENS.push(CharacterExpression);
 				
 		}
 		}
@@ -93,7 +94,8 @@ public class LeerFichero {
 			
 		catch(Exception e){}
 		
-		
+		NewExpression CharacterExpression = (NewExpression) SCHARACTERS.pop();
+		System.out.println(CharacterExpression.GetContenido());
 		
     }
    

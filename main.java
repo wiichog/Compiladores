@@ -23,7 +23,6 @@ public class main{
 	//YA NOS MAS OBJETOS!
 		String ExpresionRegular =("abba")
         String Postfix = post.infixToPostfix(ExpresionRegular);
-		int contador = 0;
 		for (int i=0; i<Postfix.length(); i++) { 
 			char posicion = Postfix.charAt(i); 
 			String Simbolo = Character.toString(posicion);

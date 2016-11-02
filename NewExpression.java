@@ -4,12 +4,12 @@ public class NewExpression{
 	
 	String Nombre;
 	String Tipo;
-	ArrayList<String> Contenido = new ArrayList<String>();
+	AFN Contenido;
 	
-	public NewExpression(String Nombre, String Tipo, ArrayList Contenido) {
+	public NewExpression(String Nombre, String Tipo, AFN Contenido) {
 		this.Nombre= Nombre;
 		this.Tipo = Tipo;
-		this.Contenido.addAll(Contenido);
+		this.Contenido = Contenido;
 	}
 	
 	public String GetNombre(){
@@ -21,7 +21,7 @@ public class NewExpression{
 		return Tipo;
 	}
 	
-	public ArrayList GetContenido(){
+	public AFN GetContenido(){
 		return Contenido;
 	}
 	
