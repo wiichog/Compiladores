@@ -7,7 +7,7 @@ public class AFNGenerator{
 		for (int i=0; i<Postfix.length(); i++) { 
 			char posicion = Postfix.charAt(i); 
 			String Simbolo = Character.toString(posicion);
-			if (Character.isLetter(posicion)){
+			if (Character.isLetterOrDigit(posicion)){
 				st.push(AFN.Construccion(1,Simbolo,null,null));
 			}
 			else if(Simbolo.equals("|")){
@@ -18,6 +18,7 @@ public class AFNGenerator{
 			else if(Simbolo.equals(".")){
 				AFN b = (AFN) st.pop();
 				AFN a = (AFN) st.pop();
+				
 				st.push(AFN.Construccion(3,Simbolo,a,b));
 			}
 			else if(Simbolo.equals("*")){
@@ -29,30 +30,51 @@ public class AFNGenerator{
 		return afn;
 	}
 	
-	public AFN MakeString(String CadenaDeCaracteres){
-				String NuevaCadena ="";
-				String Parentesis = "";
-				if (CadenaDeCaracteres.charAt(0)=='"'){
-					for(int i=0;i<CadenaDeCaracteres.length();i++){
-					Character posicion = CadenaDeCaracteres.charAt(i);
-					if (!(posicion=='"') && !(posicion=='.')){NuevaCadena = NuevaCadena + Character.toString(posicion);}
+	public String MakeString(String CadenaDeCaracteres, boolean CHARACTER,boolean KEYWORDS){
+		String NuevaCadena="";
+		if (CadenaDeCaracteres.charAt(0)=='"' && CHARACTER == true){
+				String Parentesis = ")";
+				CadenaDeCaracteres = LimpiarCadena(CadenaDeCaracteres);
+				for(int i=0;i<CadenaDeCaracteres.length();i++){
+					if (i==0){NuevaCadena ="("+NuevaCadena + Character.toString(CadenaDeCaracteres.charAt(i));}
+					else {NuevaCadena =NuevaCadena +"|(" + Character.toString(CadenaDeCaracteres.charAt(i));Parentesis=Parentesis + ")";}
 				}
-				CadenaDeCaracteres = NuevaCadena;
-				NuevaCadena = "";
+					return NuevaCadena + Parentesis;
+				}
+			else if(!(CadenaDeCaracteres.charAt(0)=='"') && CHARACTER == true){
+				String s = CadenaDeCaracteres;
+					if((CadenaDeCaracteres.indexOf("CHR")!=-1)){s = s.substring(s.indexOf("(") + 1);s = s.substring(0, s.indexOf(")"));return Character.toString((char)Integer.parseInt(s));}
+				}
+			if (CadenaDeCaracteres.charAt(0)=='"' && KEYWORDS == true){
+				    CadenaDeCaracteres = LimpiarCadena(CadenaDeCaracteres);return CadenaDeCaracteres;
+			}
+		return "ERROR";
+	}
+	
+	public String SpecialCasePlus(String CadenaDeCaracteres, ArrayList Nombres, Map<String, String> map){
+		String NuevaCadena = LimpiarCadena(CadenaDeCaracteres);
+		for(int i=0; i< Nombres.size();i++){
+			if(CadenaDeCaracteres.contains((String)Nombres.get(i))){NuevaCadena = NuevaCadena.replace((String)Nombres.get(i),map.get((String)Nombres.get(i)));}
+		}
+		if(NuevaCadena.contains("CHR")){
+				String Posiblemente = NuevaCadena.substring(NuevaCadena.indexOf("C"));
+				Posiblemente = Posiblemente.substring(0, NuevaCadena.indexOf(")"));
+				String Cambio = MakeString(Posiblemente, true,false);
+				NuevaCadena = NuevaCadena.replace(Posiblemente,Cambio);
+			}
+		return NuevaCadena;
+	}
+	
+	public String LimpiarCadena(String CadenaDeCaracteres){
+				String NuevaCadena ="";
 				for(int i=0;i<CadenaDeCaracteres.length();i++){
 					Character posicion = CadenaDeCaracteres.charAt(i);
-					if (i==0){NuevaCadena =NuevaCadena + Character.toString(posicion);}
-					else {NuevaCadena =NuevaCadena +"|(" + Character.toString(posicion);Parentesis=Parentesis + ")";}
+					String Prueba = Character.toString(posicion);
+					if (!(posicion=='"') && !(posicion=='.') && !(posicion=='+') && !(posicion==(char)39)){NuevaCadena = NuevaCadena + Character.toString(posicion);}
 				}
-				NuevaCadena = NuevaCadena + Parentesis;
-				Postfix post = new Postfix();
-				String Postfix = post.infixToPostfix(NuevaCadena);
-				NuevaCadena=Postfix;
-				}else {NuevaCadena = CadenaDeCaracteres;}
-		return CreateAFN(NuevaCadena);
+				NuevaCadena = NuevaCadena.replace("{","(");
+				NuevaCadena = NuevaCadena.replace("}",")*");
+				return NuevaCadena;
 	}
 
-
-
-	
 }

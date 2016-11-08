@@ -39,12 +39,12 @@ public class ScannerValidations{
 		FileReader f = new FileReader(file);
 		BufferedReader b = new BufferedReader(f);
 		while((cadena = b.readLine())!=null) {
-            if(cadena.indexOf("=")!=-1){
+			if(cadena.indexOf("=")!=-1){
 				int n = cadena.length();
 				Character car=cadena.charAt(n-1); 
 				if (!(Character.toString(car).equals("."))){System.out.println(cadena);return 0;}
 			}
-        }return 12;}
+        }b.close();return 12;}
 		catch(Exception e){return 45;}
 		}
 		
@@ -62,7 +62,7 @@ public class ScannerValidations{
 			if(cadena.indexOf("END")!=-1){
 				Name2 = cadena.substring(4,cadena.length());
 			}
-        }
+        }b.close();
 		if(Name1.equals(Name2)){return Name1;}else{return "o";}}
 		catch(Exception e){return "";}
 		

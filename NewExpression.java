@@ -4,9 +4,9 @@ public class NewExpression{
 	
 	String Nombre;
 	String Tipo;
-	AFN Contenido;
+	String Contenido;
 	
-	public NewExpression(String Nombre, String Tipo, AFN Contenido) {
+	public NewExpression(String Nombre, String Tipo, String Contenido) {
 		this.Nombre= Nombre;
 		this.Tipo = Tipo;
 		this.Contenido = Contenido;
@@ -21,7 +21,7 @@ public class NewExpression{
 		return Tipo;
 	}
 	
-	public AFN GetContenido(){
+	public String GetContenido(){
 		return Contenido;
 	}
 	
