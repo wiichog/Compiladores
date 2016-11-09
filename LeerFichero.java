@@ -3,6 +3,8 @@ import java.util.*;
 public class LeerFichero {
     public static void main(String[] args)  {
 		ArrayList Names = new ArrayList();
+		MostrarDatos Mostrar =  new MostrarDatos();
+		Stack StackAutomatas = new Stack();
 		Map<String, String> map = new HashMap<String, String>();
 		Map<String, AFN> Automatas = new HashMap<String, AFN>();
 		ScannerValidations Scanner = new ScannerValidations();
@@ -80,22 +82,35 @@ public class LeerFichero {
 				String  CadenaDeCaracteres = Contenido[2];
 				AFNGenerator generator = new AFNGenerator();
 				CadenaDeCaracteres = generator.LimpiarCadena(CadenaDeCaracteres);
+				
 				for(int i=0; i< Names.size();i++){
 					if(CadenaDeCaracteres.contains((String)Names.get(i))){CadenaDeCaracteres = CadenaDeCaracteres.replace((String)Names.get(i),map.get((String)Names.get(i)));}
 				}
-				System.out.println(CadenaDeCaracteres);
 				Postfix post = new Postfix();
-				MostrarDatos Mostrar =  new MostrarDatos();
-				//Mostrar.MostrarAFN(generator.CreateAFN(post.infixToPostfix(CadenaDeCaracteres)));
-				Automatas.put(Contenido[0],generator.CreateAFN(post.infixToPostfix(CadenaDeCaracteres)));
+				StackAutomatas.push(generator.CreateAFN(post.infixToPostfix(CadenaDeCaracteres)));
 		}
 		}
 		}
-			
 		catch(Exception e){}
 		
-		
-		
-    }
-   
+		//LETS JOIN THE AUTOMS
+		Thompson afn = new Thompson();
+		while(!(StackAutomatas.size()==1)){
+			AFN a = (AFN)StackAutomatas.pop();
+			AFN b = (AFN)StackAutomatas.pop();
+			StackAutomatas.push(afn.Construccion(3,"«",a,b));
+		}
+		System.out.println(StackAutomatas.size());
+		AFN Final = (AFN)StackAutomatas.pop();
+		ArrayList<Transicion> CaminosAFN = Final.GetCaminos();
+		try{
+        BufferedWriter bw = new BufferedWriter(new FileWriter(new File("Lenguaje.txt")));
+		for(int t=0;t<CaminosAFN.size();t++){
+			Transicion Camino = CaminosAFN.get(t);
+			bw.write(Camino.GetEstadoInicial()+"ƒ"+Camino.GetSimbolo()+"ƒ"+Camino.GetEstadoFinal()+"\n");
+		}
+        bw.close();}
+		catch(Exception e){}
+    	
+    }  
 }

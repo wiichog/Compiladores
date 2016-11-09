@@ -1,0 +1,16 @@
+COMPILER Aritmetica
+
+CHARACTERS 
+
+5ds44adsa = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz".
+
+
+KEYWORDS
+
+
+
+TOKENS
+
+
+
+END Aritmetica

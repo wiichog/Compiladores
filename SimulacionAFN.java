@@ -47,10 +47,11 @@ public class SimulacionAFN{
 				for(int j=0;j<Recorridos.size();j++){
 					Transicion Recorriendo = Recorridos.get(j);
 					if(Recorriendo.GetEstadoInicial()==Numero && Recorriendo.GetSimbolo().equals(c)){
+						System.out.println("Simbolo "+Recorriendo.GetSimbolo()+ " Lo que viene "+c);
 						Mover.add(Recorriendo.GetEstadoFinal());
-						}
-					}
-				}
+						}}
+						
+				}if(Mover.size()==0){System.out.println(" Lo que viene "+c);}
 		return Mover;
 		}
 	
@@ -61,5 +62,42 @@ public class SimulacionAFN{
 					Recorriendo.SetMarcado(false);
 				}
 		}	
+		
+		
+		
+		public Boolean SimulacionFinal(AFN afn,String c){
+			ArrayList<Integer> S = new ArrayList<Integer>();
+			ArrayList<Integer> S1 = new ArrayList<Integer>();
+			Estados.clear();
+			DesmarcarAFN(afn);
+			Mover.clear();
+			ArrayList<Integer> S0 = ECerraduraEstado(afn,afn.GetEstadoInicial(),afn.GetEstadoInicial(),0);
+			MostrarDatos mostrar = new MostrarDatos();
+			//mostrar.MostrarArrayList(S0);
+			c = c + "%";
+			//*******Algoritmo Pagina 156 Libro de Dragon
+			for(int i=0; i<c.length();i++)
+			{
+				String z = Character.toString(c.charAt(i));
+				
+				if(!z.equals("%")){
+					S.addAll(Mover(afn,S0,z));//Aqui tenemos mover del estado inicial
+					for(int j=0;j<S.size();j++){
+						Estados.clear();//vaciamos los arraylist
+						DesmarcarAFN(afn);//para poder recorrer el arbol
+						Mover.clear();//vaciamos arraylist
+						S1.addAll(ECerraduraEstado(afn,S.get(j),S.get(j),0));//hacemos eclousure de mover y lo agregamos a un vector
+				S0.clear();
+				S0.addAll(S1);
+				S1.clear();
+				S.clear();
+				}
+				
+			}			
+			}
+			if(S0.contains(afn.GetEstadoFinal())){return true;}
+			else{return false;}	
+			
+		}
 			
 }
