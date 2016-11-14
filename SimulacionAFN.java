@@ -68,20 +68,19 @@ public class SimulacionAFN{
 			ArrayList<Integer> S0 = new ArrayList<Integer>();
 			ArrayList<Integer> S1 = new ArrayList<Integer>();
 			ArrayList<Integer> S = new ArrayList<Integer>();
+			MostrarDatos mostrar = new MostrarDatos();
 			Estados.clear();
 			DesmarcarAFN(afn);
 			Mover.clear();
 			S0 = ECerraduraEstado(afn,afn.GetEstadoInicial(),afn.GetEstadoInicial(),0);
-			// System.out.println("Tamano de S0: "+S0.size());
+			// mostrar.MostrarArrayList(S0,"S0 ");
 			c = c + "%";
-			// System.out.println("Cadena que entro: "+c);
 			//*******Algoritmo Pagina 156 Libro de Dragon
 			for(int i=0; i<c.length();i++)
 			{
 				String z = Character.toString(c.charAt(i));
 				if(!z.equals("%")){
 					S.addAll(Mover(afn,S0,z));//Aqui tenemos mover del estado inicial
-					// System.out.println("Tamano de S: "+S.size() + " con caracter "+ z + " S0 ");
 					if(!(S.size()==0)){
 					for(int j=0;j<S.size();j++){
 						Estados.clear();//vaciamos los arraylist
@@ -92,7 +91,7 @@ public class SimulacionAFN{
 				S0.addAll(S1);
 				S1.clear();
 				S.clear();
-					}}else{System.out.println("Break");break;}
+					}}else{return false;}
 				
 			}			
 			}

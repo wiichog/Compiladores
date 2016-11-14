@@ -1,16 +1,6 @@
-COMPILER Aritmetica
-
-CHARACTERS 
-
-5ds44adsa = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz".
-
-
-KEYWORDS
-
-
-
-TOKENS
-
-
-
-END Aritmetica
+fnsdnfas
+4234
+fasdjn
+2re
+vds3
+dasdas

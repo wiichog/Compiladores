@@ -13,9 +13,9 @@ public class MostrarDatos{
 		
 	}
 	
-	public void MostrarArrayList(ArrayList a){
+	public void MostrarArrayList(ArrayList a,String Mensaje){
 			for(int i=0; i<a.size();i++){
-				System.out.println(a.get(i));
+				System.out.println(Mensaje + a.get(i));
 			}
 		
 	}
