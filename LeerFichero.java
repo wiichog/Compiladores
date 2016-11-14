@@ -12,12 +12,10 @@ public class LeerFichero {
 		File file = new File("Archivo.txt");
 		if(Scanner.SpecialWords(file)==0){System.out.println("Estas Palabras no existen en el archivos");}}
 		catch(Exception e){}
-		
 		try{
 		File file = new File("Archivo.txt");
 		if(Scanner.point(file)==0){System.out.println("Estas lineas deberian de tener un punto al final");}}
 		catch(Exception e){}
-		
 		try{
 		File file = new File("Archivo.txt");
 		if (Scanner.GotNameCompiler(file).equals("o")){System.out.println("El nombre de COMPILER y END no son los mismos");}}
@@ -30,9 +28,7 @@ public class LeerFichero {
 		boolean CHARACTERS = false;
 		boolean KEYWORDS = false;
 		boolean TOKENS = false;
-		File file = new File("Archivo.txt");
-		FileReader f = new FileReader(file);
-		BufferedReader b = new BufferedReader(f);
+		BufferedReader b = new BufferedReader(new FileReader(new File("Archivo.txt")));
 		while((cadena = b.readLine())!=null) {
 			if(cadena.indexOf("CHARACTERS")!=-1){
 				CHARACTERS = true;
@@ -61,7 +57,7 @@ public class LeerFichero {
 				}
 				else{
 				String[] Contenido = cadena.split(" ");
-				String  CadenaDeCaracteres = Contenido[2];
+				String CadenaDeCaracteres = Contenido[2];
 				if((CadenaDeCaracteres.indexOf("'")!=-1)){CadenaDeCaracteres = CadenaDeCaracteres + " '.";}
 				AFNGenerator generator = new AFNGenerator();
 				String ContenidoLimpio = generator.MakeString(CadenaDeCaracteres,true,false);
@@ -82,35 +78,58 @@ public class LeerFichero {
 				String  CadenaDeCaracteres = Contenido[2];
 				AFNGenerator generator = new AFNGenerator();
 				CadenaDeCaracteres = generator.LimpiarCadena(CadenaDeCaracteres);
-				
 				for(int i=0; i< Names.size();i++){
 					if(CadenaDeCaracteres.contains((String)Names.get(i))){CadenaDeCaracteres = CadenaDeCaracteres.replace((String)Names.get(i),map.get((String)Names.get(i)));}
 				}
 				Postfix post = new Postfix();
+				Automatas.put(Contenido[0],generator.CreateAFN(post.infixToPostfix(CadenaDeCaracteres)));
 				StackAutomatas.push(generator.CreateAFN(post.infixToPostfix(CadenaDeCaracteres)));
+				
 		}
 		}
 		}
 		catch(Exception e){}
 		
-		//LETS JOIN THE AUTOMS
-		Thompson afn = new Thompson();
-		while(!(StackAutomatas.size()==1)){
-			AFN a = (AFN)StackAutomatas.pop();
-			AFN b = (AFN)StackAutomatas.pop();
-			StackAutomatas.push(afn.Construccion(3,"«",a,b));
+		// LETS SCAN THE NEW FILE
+		try{
+		String cadena = "";
+		BufferedReader b = new BufferedReader(new FileReader(new File("Archivo.txt")));
+		while((cadena = b.readLine())!=null) {
+			if((cadena.indexOf("=")!=-1)){
+			String[] Contenido = cadena.split(" ");
+			String Ident = Contenido[0];
+			AFN afn = Automatas.get("ident");
+			SimulacionAFN Simulacion = new SimulacionAFN();
+			System.out.println("**************************");
+			System.out.println("Para "+Contenido[0]+ " el resultado es "+Simulacion.SimulacionFinal(afn,Ident));
+			System.out.println("**************************");
+			
+			}
+			}
 		}
-		System.out.println(StackAutomatas.size());
-		AFN Final = (AFN)StackAutomatas.pop();
+		catch(Exception e){}
+		
+		
+		
+		
+		//LETS JOIN THE AUTOMS
+		// Thompson afn = new Thompson();
+		// while(!(StackAutomatas.size()==1)){
+			// AFN a = (AFN)StackAutomatas.pop();
+			// AFN b = (AFN)StackAutomatas.pop();
+			// StackAutomatas.push(afn.Construccion(2,"«",a,b));
+		// }
+		AFN Final = Automatas.get("ident");
+		// AFN Final = (AFN)StackAutomatas.pop();
 		ArrayList<Transicion> CaminosAFN = Final.GetCaminos();
 		try{
         BufferedWriter bw = new BufferedWriter(new FileWriter(new File("Lenguaje.txt")));
 		for(int t=0;t<CaminosAFN.size();t++){
 			Transicion Camino = CaminosAFN.get(t);
-			bw.write(Camino.GetEstadoInicial()+"ƒ"+Camino.GetSimbolo()+"ƒ"+Camino.GetEstadoFinal()+"\n");
+			if(!(Camino.GetSimbolo().equals("«"))){
+			bw.write(Camino.GetEstadoInicial()+"ƒ"+Camino.GetSimbolo()+"ƒ"+Camino.GetEstadoFinal()+"\n");}
 		}
         bw.close();}
 		catch(Exception e){}
-    	
+    	}
     }  
-}
