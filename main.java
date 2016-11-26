@@ -20,6 +20,7 @@ public class main{
 		ArrayList<Integer> EstadosAFN = new ArrayList<Integer>();
 		SimulacionAFN Simulacion = new SimulacionAFN();
 		AFNtoAFD AFNAFD = new AFNtoAFD();
+		boolean prueba = false;
 	//YA NOS MAS OBJETOS!
 		System.out.println("Ingresar expresion regular");
 		String ExpresionRegular =teclado.nextLine();
@@ -77,7 +78,6 @@ public class main{
 				
 				if(!z.equals("%")){
 					S.addAll(Simulacion.Mover(afn,S0,z));//Aqui tenemos mover del estado inicial
-					if(!(S.size()==0)){
 					for(int j=0;j<S.size();j++){
 						Simulacion.Estados.clear();//vaciamos los arraylist
 						Simulacion.DesmarcarAFN(afn);//para poder recorrer el arbol
@@ -87,41 +87,40 @@ public class main{
 				S0.addAll(S1);
 				S1.clear();
 				S.clear();
-					}}else{break;}
-				
+				}
+				if(S0.contains(afn.GetEstadoFinal())){System.out.println("El resultado de la simulacion del AFN es: Si");prueba=true;}
+				else{System.out.println("El resultado de la simulacion del AFN es: No");prueba=false;}	
 			}			
 			}
-			if(S0.contains(afn.GetEstadoFinal())){System.out.println("El resultado de la simulacion del AFN es: Si");}
-			else{System.out.println("El resultado de la simulacion del AFN es: No");}	
 			//**************CONVERSION DE AFN A AFD
-			// for(int g=0;g<CaminosAFN.size();g++){
-				// Transicion Letra = CaminosAFN.get(g);
-				// if(!(Alfabeto.contains(Letra.GetSimbolo())) && !(Letra.GetSimbolo().equals("«")))
-				// {
-					// Alfabeto.add(Letra.GetSimbolo());
-				// }
-			// }
-						// ArrayList<Integer> Prueba = new ArrayList<Integer>();
-						// Simulacion.Estados.clear();//vaciamos los arraylist
-						// Simulacion.DesmarcarAFN(afn);//para poder recorrer el arbol
-						// Simulacion.Mover.clear();//vaciamos arraylist
-						// Prueba.addAll(Simulacion.ECerraduraEstado(afn,afn.GetEstadoInicial(),afn.GetEstadoInicial(),0));//hacemos eclousure de mover y lo agregamos a un vector
-						// for(int t=0;t<Prueba.size();t++){System.out.println(Prueba.get(t));}
-			// AFNtoAFD Conversion = new AFNtoAFD();
-			// Stack<ArrayList<Integer>> AFDTransitorio = new Stack<ArrayList<Integer>>();
-			// AFDTransitorio.push(Prueba);
-			// ArrayList<ArrayList<Integer>> EstadosAFDTransitorios = new ArrayList<ArrayList<Integer>>();
-			// ArrayList<ArrayList<Integer>> EstadosFinalesAFD = new ArrayList<ArrayList<Integer>>();
+			for(int g=0;g<CaminosAFN.size();g++){
+				Transicion Letra = CaminosAFN.get(g);
+				if(!(Alfabeto.contains(Letra.GetSimbolo())) && !(Letra.GetSimbolo().equals("«")))
+				{
+					Alfabeto.add(Letra.GetSimbolo());
+				}
+			}
+						ArrayList<Integer> Prueba = new ArrayList<Integer>();
+						Simulacion.Estados.clear();//vaciamos los arraylist
+						Simulacion.DesmarcarAFN(afn);//para poder recorrer el arbol
+						Simulacion.Mover.clear();//vaciamos arraylist
+						Prueba.addAll(Simulacion.ECerraduraEstado(afn,afn.GetEstadoInicial(),afn.GetEstadoInicial(),0));//hacemos eclousure de mover y lo agregamos a un vector
+						//for(int t=0;t<Prueba.size();t++){System.out.println(Prueba.get(t));}
+			AFNtoAFD Conversion = new AFNtoAFD();
+			Stack<ArrayList<Integer>> AFDTransitorio = new Stack<ArrayList<Integer>>();
+			AFDTransitorio.push(Prueba);
+			ArrayList<ArrayList<Integer>> EstadosAFDTransitorios = new ArrayList<ArrayList<Integer>>();
+			ArrayList<ArrayList<Integer>> EstadosFinalesAFD = new ArrayList<ArrayList<Integer>>();
 			
-			// while(!(AFDTransitorio.isEmpty())){
-			// EstadosAFDTransitorios.addAll(Conversion.ThompsonToAFD(afn,Alfabeto,AFDTransitorio.pop(),0));
-			// for(int m=0;m<EstadosAFDTransitorios.size();m++){
-					// ArrayList<Integer> Sistema = EstadosAFDTransitorios.get(m);
-					// if(!(EstadosFinalesAFD.contains(Sistema))){
-						// EstadosFinalesAFD.add(Sistema);
-						// AFDTransitorio.push(Sistema);
-					// }
-			// }}
+			while(!(AFDTransitorio.isEmpty())){
+			EstadosAFDTransitorios.addAll(Conversion.ThompsonToAFD(afn,Alfabeto,AFDTransitorio.pop(),0));
+			for(int m=0;m<EstadosAFDTransitorios.size();m++){
+					ArrayList<Integer> Sistema = EstadosAFDTransitorios.get(m);
+					if(!(EstadosFinalesAFD.contains(Sistema))){
+						EstadosFinalesAFD.add(Sistema);
+						AFDTransitorio.push(Sistema);
+					}
+			}}
 	//*************************SIMULACION AFD
 	AFD afd = new AFD();
 	ArrayList<Integer> Inicio = afd.GetInicio();
@@ -143,7 +142,7 @@ public class main{
 			
 		}
 	}
-	if(ConjuntoFinal.contains(afn.GetEstadoFinal())){System.out.println("El resultado de la simulacion del AFD es: Si");}
+	if(prueba==true){System.out.println("El resultado de la simulacion del AFD es: Si");}
 	else{System.out.println("El resultado de la simulacion del AFD es: NO");}
 				}
 }

@@ -15,7 +15,7 @@ public class  Postfix{
 		Map<Character, Integer> map = new HashMap<Character, Integer>();
 		map.put('(', 1);
 		map.put('|', 2);
-		map.put('.', 3); // explicit concatenation operator
+		map.put('~', 3); // explicit concatenation operator
 		map.put('?', 4);
 		map.put('*', 4);
 		map.put('+', 4);
@@ -40,7 +40,7 @@ public class  Postfix{
 				res += c1;
 
 				if (!c1.equals('(') && !c2.equals(')') && !allOperators.contains(c2) && !binaryOperators.contains(c1)) {
-					res += '.';
+					res += '~';
 				}
 			}
 		}

@@ -41,7 +41,7 @@ public class ScannerValidations{
 		while((cadena = b.readLine())!=null) {
 			if(cadena.indexOf("=")!=-1){
 				int n = cadena.length();
-				Character car=cadena.charAt(n-1); 
+				Character car=cadena.charAt(n-1);
 				if (!(Character.toString(car).equals("."))){System.out.println(cadena);return 0;}
 			}
         }b.close();return 12;}
@@ -57,10 +57,10 @@ public class ScannerValidations{
 		BufferedReader b = new BufferedReader(f);
 		while((cadena = b.readLine())!=null) {
             if(cadena.indexOf("COMPILER")!=-1){
-				Name1 = cadena.substring(9,cadena.length());
+				Name1 = cadena.substring(8,cadena.length());
 			}
 			if(cadena.indexOf("END")!=-1){
-				Name2 = cadena.substring(4,cadena.length());
+				Name2 = cadena.substring(3,cadena.length());
 			}
         }b.close();
 		if(Name1.equals(Name2)){return Name1;}else{return "o";}}

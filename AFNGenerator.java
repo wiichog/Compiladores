@@ -15,7 +15,7 @@ public class AFNGenerator{
 				AFN a = (AFN) st.pop();
 				st.push(AFN.Construccion(2,Simbolo,a,b));	
 			}
-			else if(Simbolo.equals(".")){
+			else if(Simbolo.equals("~")){
 				AFN b = (AFN) st.pop();
 				AFN a = (AFN) st.pop();
 				
