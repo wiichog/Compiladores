@@ -1,4 +1,4 @@
-COMPILER Aritmetica    
+COMPILER Aritmetica
 	
 (.
 			/*--------------Scanner Especification----------*/
@@ -6,7 +6,7 @@ COMPILER Aritmetica
 
 CHARACTERS 
 
-letter = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz". 
+letter = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz".
 digit = "0123456789" .
 tab = CHR(9).
 eol = CHR(10).
@@ -25,11 +25,11 @@ PRODUCTIONS
 
 Expr= {Stat ";"{white}}{white}".".
 
-Stat = 							(.int value=0;.)
+Stat= 							(.int value=0;.)
 	Expression<ref value>		(.System.Console.WriteLine("Resultado {0}:",value);.)
 	.
 
-Expression<ref int result> =			(.int result1=0,result2=0;.)
+Expression<ref int result>=			(.int result1=0,result2=0;.)
 	Term<ref result1>
 	{    "+"Term<ref result2>		(.result1+=result2;.)
 	   | "-"Term<ref result2>		(.result1-=result2;.)
@@ -44,7 +44,7 @@ Term<ref int result>=				(.int result1=0,result2=0;.)
 	.
 
 
-Factor<ref int result> =		(.int sign=1;.)
+Factor<ref int result>=		(.int sign=1;.)
 	["-"						(.sign = -1;.)
 	]
 	(Number<ref result>
@@ -52,7 +52,7 @@ Factor<ref int result> =		(.int sign=1;.)
 	)							(.result*=sign;.)
 	.
 
-Number<ref int result> =	
+Number<ref int result>=	
 	number				(.result = int.Parse(LastToken.Value);.)
 	.
 END Aritmetica

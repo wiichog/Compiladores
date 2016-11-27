@@ -9,17 +9,16 @@ public class LeerFichero {
 		Map<String, AFN> Automatas = new HashMap<String, AFN>();
 		ScannerValidations Scanner = new ScannerValidations();
 		AFNGenerator generator = new AFNGenerator();
+		ArrayList NombreFuncion = new ArrayList();
 		Postfix post = new Postfix();
-		try{
 		File file = new File("Archivo.txt");
+		try{
 		if(Scanner.SpecialWords(file)==0){System.out.println("Estas Palabras no existen en el archivos");}}
 		catch(Exception e){}
 		try{
-		File file = new File("Archivo.txt");
 		if(Scanner.point(file)==0){System.out.println("Estas lineas deberian de tener un punto al final");}}
 		catch(Exception e){}
 		try{
-		File file = new File("Archivo.txt");
 		if (Scanner.GotNameCompiler(file).equals("o")){System.out.println("El nombre de COMPILER y END no son los mismos");}}
 		catch(Exception e){}
 		
@@ -54,6 +53,12 @@ public class LeerFichero {
 				KEYWORDS = false;
 				TOKENS = false;
 				PRODUCTIONS = true;
+			}
+			if(cadena.indexOf("END")!=-1){
+				CHARACTERS = false;
+				KEYWORDS = false;
+				TOKENS = false;
+				PRODUCTIONS = false;
 			}
 		if((cadena.indexOf("=")!=-1) && CHARACTERS==true){
 				if((cadena.indexOf("CHR")!=-1) && (cadena.indexOf("+")!=-1)){
@@ -91,15 +96,38 @@ public class LeerFichero {
 				System.out.println(CadenaDeCaracteres);
 				Automatas.put(Contenido[0],generator.CreateAFN(post.infixToPostfix(CadenaDeCaracteres)));
 		}
+		if(PRODUCTIONS==true){
+			try{
+			if(!(cadena.charAt(0)=='	')){
+				String[] Contenido = cadena.split("=");
+				String Nombre = Contenido[0];
+				if((Nombre.indexOf("<")!=-1)){
+					Nombre = Nombre.replace("<","(");
+					Nombre = Nombre.replace(">",")");
+					Nombre = "void " + Nombre + "{";
+					NombreFuncion.add(Nombre);
+				}
+				else{
+					Nombre = "void " + Nombre + "(){";
+					NombreFuncion.add(Nombre);
+				}
+			}
+			}catch(Exception e){}
+			// System.out.println(Character.toString(cadena.charAt(0)));
+			
+			
 		}
+		}
+		CodeGenerator generador = new CodeGenerator();
+		generador.ClassGenerator(NombreFuncion,Scanner.GotNameCompiler(file));
 		}
 		catch(Exception e){}
 		// MostrarDatos mostrar = new MostrarDatos();
 		// mostrar.MostrarArrayList(TokensNames,"Nombres de Tokens ");
 		// AFN afn1 = Automatas.get("white");
+		
 		// SimulacionAFN Simulacion2 = new SimulacionAFN();
 		// System.out.println("Prueba "+Simulacion2.SimulacionFinal(afn1,"78979845"));
-		
 		
 		// LETS SCAN THE NEW FILE
 		// try{
@@ -119,16 +147,16 @@ public class LeerFichero {
 			// }
 		// }
 		// catch(Exception e){}
-		AFN Final = Automatas.get("white");
-		Mostrar.MostrarAFN(Final);
-		ArrayList<Transicion> CaminosAFN = Final.GetCaminos();
-		try{
-        BufferedWriter bw = new BufferedWriter(new FileWriter(new File("Lenguaje.txt")));
-		for(int t=0;t<CaminosAFN.size();t++){
-			Transicion Camino = CaminosAFN.get(t);
-			bw.write(Camino.GetEstadoInicial()+"ƒ"+Camino.GetSimbolo()+"ƒ"+Camino.GetEstadoFinal()+"\n");
-		}
-        bw.close();}
-		catch(Exception e){}
+		// AFN Final = Automatas.get("white");
+		// Mostrar.MostrarAFN(Final);
+		// ArrayList<Transicion> CaminosAFN = Final.GetCaminos();
+		// try{
+        // BufferedWriter bw = new BufferedWriter(new FileWriter(new File("Lenguaje.txt")));
+		// for(int t=0;t<CaminosAFN.size();t++){
+			// Transicion Camino = CaminosAFN.get(t);
+			// bw.write(Camino.GetEstadoInicial()+"ƒ"+Camino.GetSimbolo()+"ƒ"+Camino.GetEstadoFinal()+"\n");
+		// }
+        // bw.close();}
+		// catch(Exception e){}
     	}
     }
