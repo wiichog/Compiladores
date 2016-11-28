@@ -6,6 +6,7 @@ public class LeerFichero {
 		MostrarDatos Mostrar =  new MostrarDatos();
 		ArrayList TokensNames = new ArrayList();
 		ArrayList FunctionNames = new ArrayList();
+		ArrayList NoTerminales = new ArrayList();
 		ArrayList Variables = new ArrayList();
 		Map<String, String> map = new HashMap<String, String>();
 		Map<String, AFN> Automatas = new HashMap<String, AFN>();
@@ -71,7 +72,6 @@ public class LeerFichero {
 					String  CadenaDeCaracteres = Contenido[2];
 					if((CadenaDeCaracteres.indexOf("'")!=-1)){CadenaDeCaracteres = CadenaDeCaracteres + " '.";}
 					String ContenidoLimpio = generator.SpecialCasePlus(CadenaDeCaracteres,Names,map);
-					System.out.println("Contenido Limpio "+ContenidoLimpio);
 					Names.add(Contenido[0]);
 					map.put(Contenido[0],ContenidoLimpio);
 				}
@@ -107,9 +107,13 @@ public class LeerFichero {
 		if(!(cadena.charAt(0)=='	')){
 			String[] Contenido = cadena.split("=");
 			String LadoDerecho = Contenido[0];
-			System.out.println("LadoDerecho " + LadoDerecho);
 			LadoDerecho = LadoDerecho.replace("<","(");
 			LadoDerecho = LadoDerecho.replace(">",")");
+			LadoDerecho = LadoDerecho.replaceAll("^\\s*","");
+			if(!(LadoDerecho.equals("PRODUCTIONS"))){
+				NoTerminales.add(LadoDerecho);
+			}
+			
 			String LadoIzquierdo = "";
 			for(int i=1;i<Contenido.length;i++){
 				LadoIzquierdo = LadoIzquierdo + Contenido[i];
@@ -124,6 +128,9 @@ public class LeerFichero {
 			TipoDeVariable = TipoYVariables[0] + "," + LadoDerecho + TipoDeVariable;
 			Variables.add(TipoDeVariable);
 			FunctionNames.add(LadoDerecho);
+			
+			
+			
 		}}catch(Exception e){}
 		
 		
@@ -131,12 +138,12 @@ public class LeerFichero {
 		
 		
 		}
-		CodeGenerator generador = new CodeGenerator();
-		BufferedWriter bw = new BufferedWriter(new FileWriter(new File("Lexer.java")));
-		generador.CodigoTercerProyecto(bw,FunctionNames,Variables);
-		bw.close();
 		// CodeGenerator generador = new CodeGenerator();
-		// BufferedWriter bw = new BufferedWriter(new FileWriter(new File("Lenguaje.txt")));
+		// BufferedWriter bw = new BufferedWriter(new FileWriter(new File("Lexer.java")));
+		// generador.CodigoTercerProyecto(bw,FunctionNames,Variables);
+		// bw.close();
+		// CodeGenerator generador = new CodeGenerator();
+		// bw = new BufferedWriter(new FileWriter(new File("Lenguaje.txt")));
 		// for(int i=0; i<TokensNames.size();i++){
 			// generador.CreadorDeAutomatas(bw,Automatas.get(TokensNames.get(i)),(String)TokensNames.get(i));
 		// }

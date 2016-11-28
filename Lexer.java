@@ -11,7 +11,7 @@ int value=0
 public Expression(ref int result)  { 
 int result1=0
 int result2=0
-int result3=5
+int result=0
 }
 
 public Term(ref int result) { 

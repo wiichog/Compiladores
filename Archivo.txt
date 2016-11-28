@@ -8,7 +8,6 @@ CHARACTERS
 
 letter = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz".
 digit = "0123456789" .
-hexdigit = digit+"ABCEF".
 
 KEYWORDS
 
@@ -19,7 +18,6 @@ TOKENS
 
 ident = digitletter{letter|digit}.
 number = digit{digit}.
-hexnumber = hexdigit{hexdigit}"(H)".
 
 PRODUCTIONS
 
@@ -29,7 +27,7 @@ Stat = 							(.int value=0;.)
 	Expression<ref value>		(.System.Console.WriteLine("Resultado {0}:",value);.)
 	.
 
-Expression<ref int result> =			(.int result1=0,result2=0;.)
+Expression<ref int result> =			(.int result1=0,result2=0,result=0;.)
 	Term<ref result1>
 	{    "+"Term<ref result2>		(.result1+=result2;.)
 	   | "-"Term<ref result2>		(.result1-=result2;.)
