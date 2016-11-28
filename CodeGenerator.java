@@ -76,9 +76,39 @@ public class CodeGenerator{
 		
 		
 	}
-		
+	
+	
+	
+	public void CodigoTercerProyecto(BufferedWriter bw,ArrayList FunctionNames,ArrayList Variables){
+		try{
+			bw.write("//Juan Luis Garcia\n");
+			bw.write("//14189\n");
+			bw.write("\n");
+			bw.write("public class Lexer {\n");
+			bw.write("  public static void main(String[] args)  {\n");
+			for(int i=0;i<FunctionNames.size();i++){
+				bw.write("\n");
+				bw.write("public " + FunctionNames.get(i) + " { \n");
+				for(int j=0;j<Variables.size();j++){
+					String VariablesYTipos = (String)Variables.get(j);
+					String[] ConjuntoVariables = VariablesYTipos.split(",");
+					String Tipo = ConjuntoVariables[0];
+					String NombreFuncion = ConjuntoVariables[1];
+					if (NombreFuncion.equals(FunctionNames.get(i))){
+						for(int y=2; y<ConjuntoVariables.length;y++){
+							bw.write(Tipo + " " + ConjuntoVariables[y] + "\n");
+						}
+						
+					}
+				}
+				bw.write("}\n");
+			}
 			
+			bw.write("}\n");
+			bw.write("}\n");
+		}catch(Exception e){}
 			
+		}
 			
 	
 	

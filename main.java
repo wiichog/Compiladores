@@ -25,11 +25,12 @@ public class main{
 		System.out.println("Ingresar expresion regular");
 		String ExpresionRegular =teclado.nextLine();
         String Postfix = post.infixToPostfix(ExpresionRegular);
+		System.out.println(Postfix);
 		int contador = 0;
 		for (int i=0; i<Postfix.length(); i++) { 
 			char posicion = Postfix.charAt(i); 
 			String Simbolo = Character.toString(posicion);
-			if (Character.isLetter(posicion)){
+			if (Character.isLetterOrDigit(posicion) || posicion=='.'){
 				st.push(AFN.Construccion(1,Simbolo,null,null));
 			}
 			else if(Simbolo.equals("|")){

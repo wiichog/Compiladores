@@ -7,7 +7,7 @@ public class AFNGenerator{
 		for (int i=0; i<Postfix.length(); i++) { 
 			char posicion = Postfix.charAt(i); 
 			String Simbolo = Character.toString(posicion);
-			if (Character.isLetterOrDigit(posicion)){
+			if (Character.isLetterOrDigit(posicion) || posicion=='.'){
 				st.push(AFN.Construccion(1,Simbolo,null,null));
 			}
 			else if(Simbolo.equals("|")){
@@ -70,7 +70,7 @@ public class AFNGenerator{
 				for(int i=0;i<CadenaDeCaracteres.length();i++){
 					Character posicion = CadenaDeCaracteres.charAt(i);
 					String Prueba = Character.toString(posicion);
-					if (!(posicion=='"') && !(posicion=='.') && !(posicion=='+') && !(posicion==(char)39)){NuevaCadena = NuevaCadena + Character.toString(posicion);}
+					if (!(posicion=='"') && !(posicion=='.') && !(posicion=='+')){NuevaCadena = NuevaCadena + Character.toString(posicion);}
 				}
 				NuevaCadena = NuevaCadena.replace("{","(");
 				NuevaCadena = NuevaCadena.replace("}",")*");

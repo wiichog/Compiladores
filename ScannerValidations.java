@@ -36,10 +36,12 @@ public class ScannerValidations{
 	public int point(File file){
 		try{
 		String cadena = "";
+		boolean PRODUCTIONS =true;
 		FileReader f = new FileReader(file);
 		BufferedReader b = new BufferedReader(f);
 		while((cadena = b.readLine())!=null) {
-			if(cadena.indexOf("=")!=-1){
+			if(cadena.equals("PRODUCTIONS")){PRODUCTIONS=false;}
+			if(cadena.indexOf("=")!=-1 && PRODUCTIONS==true){
 				int n = cadena.length();
 				Character car=cadena.charAt(n-1);
 				if (!(Character.toString(car).equals("."))){System.out.println(cadena);return 0;}

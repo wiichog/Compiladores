@@ -8,8 +8,7 @@ CHARACTERS
 
 letter = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz".
 digit = "0123456789" .
-tab = CHR(9).
-eol = CHR(10).
+hexdigit = digit+"ABCEF".
 
 KEYWORDS
 
@@ -20,5 +19,40 @@ TOKENS
 
 ident = digitletter{letter|digit}.
 number = digit{digit}.
+hexnumber = hexdigit{hexdigit}"(H)".
 
+PRODUCTIONS
+
+Expr= {Stat ";"{white}}{white}".".
+
+Stat = 							(.int value=0;.)
+	Expression<ref value>		(.System.Console.WriteLine("Resultado {0}:",value);.)
+	.
+
+Expression<ref int result> =			(.int result1=0,result2=0;.)
+	Term<ref result1>
+	{    "+"Term<ref result2>		(.result1+=result2;.)
+	   | "-"Term<ref result2>		(.result1-=result2;.)
+	}								(.result=result1;.)
+	.
+
+Term<ref int result>=				(.int result1=0,result2=0;.)
+	Factor<ref result1>
+	{    "*"Factor<ref result2>	(.result1*=result2;.)
+	   | "/"Factor<ref result2>	(.result1/=result2;.)
+	}							(.result=result1;.)
+	.
+
+
+Factor<ref int result> =		(.int sign=1;.)
+	["-"						(.sign = -1;.)
+	]
+	(Number<ref result>
+	 |"("Expression<ref result>")"
+	)							(.result*=sign;.)
+	.
+
+Number<ref int result> =	
+	number				(.result = int.Parse(LastToken.Value);.)
+	.
 END Aritmetica
